@@ -1,15 +1,37 @@
-- name: install epel-release
-  yum: 
-    name: epel-release
-    state: present
-    
-- name: install apache server 
-  yum: 
-    name: httpd
-    state: present
+---
 
-- name: "Desactivation et arret du serveur nginx"
-  systemd:
-    name: nginx
-    state: stopped
-    enabled: no
+- hosts: 192.168.30.135
+  become: yes
+  vars:
+   user:
+    root
+   password:
+    test
+   host:
+    192.168.30.135
+  tasks:
+  - name: install epel-release
+    yum:
+      name: epel-release
+      state: present
+
+  - name: install apache server
+    yum:
+      name: httpd
+      state: present
+
+  - name: install mariadb
+    yum:
+      name: mariadb
+      state: present
+
+ - name: configuration des templates php avec les variables
+   template:
+    src: create_db.php
+    dest: /var/www/html/
+    owner: root
+    group: root
+   loop:
+    - "{{ host }}"
+    - "{{ user }}"
+    - "{{ password }}"
