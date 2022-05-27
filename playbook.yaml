@@ -1,15 +1,4 @@
----
 
-- hosts: 192.168.30.135
-  become: yes
-  vars:
-   user:
-    root
-   password:
-    test
-   host:
-    192.168.30.135
-  tasks:
   - name: install epel-release
     yum:
       name: epel-release
