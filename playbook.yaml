@@ -1,17 +1,37 @@
 ---
 
-# WEB SERVER
-- hosts: web
+- hosts: 192.168.72.146
   become: yes
-  vars_files: vars/main.yml
+  vars:
+   user:
+    root
+   password:
+    test
+   host:
+    192.168.72.146
+  tasks:
+  - name: install epel-release
+    yum:
+      name: epel-release
+      state: present
 
-  roles:
-    - web
+  - name: install apache server
+    yum:
+      name: httpd
+      state: present
 
-# DATABASE SERVER
-- hosts: db
-  become: yes
-  vars_files: vars/main.yml
+  - name: install mariadb
+    yum:
+      name: mariadb
+      state: present
 
-  roles:
-    - database
+  - name: configuration des templates php avec les variables
+    template:
+     src: create_db.php
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     - "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
