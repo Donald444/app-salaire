@@ -1,35 +1,93 @@
----
-
-- hosts: [all]
+- hosts: web
   become: yes
   vars:
    user:
-    root
+    ngone
    password:
     test
+   host:
+    192.168.56.109
   tasks:
-  - name: install epel-release
-    yum:
-      name: epel-release
-      state: present
-
-  - name: install apache server
-    yum:
-      name: httpd
-      state: present
-
-  - name: install mariadb
-    yum:
-      name: mariadb
-      state: present
-
-  - name: configuration des templates php avec les variables
+  - name: install apache server 
+    yum: 
+     name: "{{ item }}"
+     state: present
+    loop:
+     - epel-release
+     - mariadb-server
+     - httpd
+  - name: demmarage de service
+    systemd:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+    loop:
+     - httpd
+     - mariadb    
+  - name: configuration des template php avec les variables
     template:
      src: create_db.php
      dest: /var/www/html/
      owner: root
      group: root
     loop:
-     - "{{ host }}"
+     -  "{{ host }}"
      - "{{ user }}"
      - "{{ password }}"
+  - name: configuration des template php avec les variables
+    template:
+     src: create_table.php 
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     -  "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
+  - name: configuration des template php avec les variables
+    template:
+     src: getting_data.php
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     -  "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
+  - name: configuration des template php avec les variables
+    template:
+     src: insert_data.php
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     -  "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
+  - name: configuration des template php avec les variables
+    template:
+     src: remove_db.php
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     -  "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
+  - name: configuration des template php avec les variables
+    template:
+     src: remove_data.php
+     dest: /var/www/html/
+     owner: root
+     group: root
+    loop:
+     -  "{{ host }}"
+     - "{{ user }}"
+     - "{{ password }}"
+  - name: redemmarage de service
+    systemd:
+     name: "{{ item }}"
+     state: restarted
+    loop:
+     - httpd
+     - mariadb
