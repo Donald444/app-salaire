@@ -1,4 +1,9 @@
-[web]
-192.168.72.146 ansible_ssh_user=root ansible_ssh_pass=root
+[all]
+app-salaire.donald.form
+db.donald.form
+
+[ServeursWEB]
+app-salaire.martin.form
+
 [db]
-192.168.72.146 ansible_ssh_user=root ansible_ssh_pass=root
+db.martin.form
