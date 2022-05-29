@@ -1,2 +1,0 @@
-web:
- hosts: app-salaire.donald.form
