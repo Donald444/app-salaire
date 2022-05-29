@@ -1,0 +1,4 @@
+[web]
+192.168.72.146 ansible_ssh_user=root ansible_ssh_pass=root
+[db]
+192.168.72.146 ansible_ssh_user=root ansible_ssh_pass=root
