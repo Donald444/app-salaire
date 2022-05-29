@@ -1,9 +1,2 @@
-[all]
-app-salaire.donald.form
-db.donald.form
-
-[ServeursWEB]
-app-salaire.donald.form
-
-[db]
-db.donald.form
+web:
+ hosts: app-salaire.donald.form
